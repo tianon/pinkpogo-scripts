@@ -143,7 +143,7 @@ EOF
 cat <<-EOF > "$root/etc/fstab"
 	# fs	mount	type	options	dump pass
 	
-	/dev/root	/	ext3	noatime,errors=remount-ro	0 1
+	LABEL=pogoplug-root	/	ext3	noatime,errors=remount-ro	0 1
 	
 	LABEL=pogoplug-swap	none	swap	sw	0 0
 	
