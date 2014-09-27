@@ -31,4 +31,14 @@ Once you've got it partitioned and formatted, eject it and plug it into your pog
 
 Now that you're back on the pogoplug, run `/sbin/fdisk -l /dev/sda` to make sure `/dev/sda` is your drive and that `/dev/sda1` is your root partition (`ext3`) and `/dev/sda2` is your swap partition (`linux swap`).
 
-TODO more content
+Run something like this:
+
+```console
+$ cd /tmp
+$ wget https://raw.githubusercontent.com/tianon/pinkpogo-scripts/master/debootstrap-squeeze.sh
+$ chmod +x debootstrap-squeeze.sh
+$ vi debootstrap-squeeze.sh # if you need to modify the variables at the top of the script after the comment
+$ ./debootstrap-squeeze.sh
+```
+
+Once that finishes, you'll have Debian installed on your USB stick and you should be ready to reboot into it! :)
