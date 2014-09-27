@@ -1,6 +1,7 @@
 # pinkpogo
 
 Default Username: `root`
+
 Default Password: `ceadmin`
 
 If you find yourself locked out and SSH connections are being refused, the firmware in your box probably updated itself.  Go to http://pogoplug.com, create an account, activate your device, then go into your Security Settings and enable SSH on the box again.
