@@ -39,16 +39,18 @@ swapDev=/dev/sda2
 
 hostname=pogoplug
 rootPassword=root
+kernelPackage=linux-image-kirkwood
 
 suite=squeeze
 variant=minbase
 arch=armel
 packages=(
+	"$kernelPackage"
+	
 	dhcpcd
 	flash-kernel
 	ifupdown
 	iproute
-	linux-image-kirkwood
 	module-init-tools
 	net-tools
 	netbase
@@ -143,6 +145,7 @@ cat <<-EOF > "$root/etc/network/interfaces"
 	iface eth0 inet dhcp
 EOF
 
+# TODO make these either configurable at the top of the script, or auto-sense UUIDs or something
 cat <<-EOF > "$root/etc/fstab"
 	# fs	mount	type	options	dump pass
 	
@@ -179,6 +182,8 @@ EOF
 chmod +x "$root/mkimage.sh"
 chroot "$root" /mkimage.sh
 
+chroot "$root" apt-get update
+chroot "$root" apt-get install -y "$kernelPackage"
 chroot "$root" apt-get clean
 
 umount "$root"
