@@ -175,6 +175,7 @@ cat <<-'EOF' > "$root/mkimage.sh"
 	mkimage -A arm -O linux -T ramdisk -C none -a 0x00000000 -e 0x00000000 -n 'initrd.img-2.6.32-5-kirkwood' -d boot/initrd.img-2.6.32-5-kirkwood boot/uInitrd
 EOF
 chmod +x "$root/mkimage.sh"
+chroot "$root" /mkimage.sh
 
 chroot "$root" apt-get clean
 
