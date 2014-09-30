@@ -1,8 +1,8 @@
 # pinkpogo
 
-Default Username: `root`
+Default PogoOS Username: `root`
 
-Default Password: `ceadmin`
+Default PogoOS Password: `ceadmin`
 
 If you find yourself locked out and SSH connections are being refused, the firmware in your box probably updated itself.  Go to http://pogoplug.com, create an account, activate your device, then go into your Security Settings and enable SSH on the box again.
 
@@ -42,3 +42,21 @@ $ ./debootstrap-squeeze.sh
 ```
 
 Once that finishes, you'll have Debian installed on your USB stick and you should be ready to reboot into it! :)
+
+### "squeeze"
+
+You might be wondering why we just installed squeeze instead of going straight for wheezy, jessie, or sid.
+
+The answer is somewhat complicated, but it boils down to the kernel installed in the default PogoOS is too old to run the binaries included in wheezy+, so we have to get into squeeze, and from there upgrade ourselves to wheezy and beyond.
+
+### "wheezy"
+
+Once you're into your new "squeeze" system, open up `/etc/apt/sources.list` (`vim /etc/apt/sources.list`) and switch "squeeze" to "wheezy" (`:%s/squeeze/wheezy/g`).  Once that's done, do a full system upgrade (`apt-get update && apt-get dist-upgrade`).
+
+This _should_ install an updated kernel as part of the changes, but it might not, so just to be sure, you should run something like `apt-get install linux-image-kirkwood`, which will make sure the 3.2.x kernel from wheezy is definitely installed and configured.
+
+Once that's finished, reboot and make sure your device comes back up, and use `uname -a` to verify that your kernel is a 3.2+ kernel instead of that ancient 2.6 stuff that's in PogoOS and squeeze.
+
+### "jessie"/"testing" or "sid"/"unstable"
+
+At this point, feel free to repeat the above steps if you want to get to something even newer, like "jessie" (if you want to switch to current "testing"), "testing" (if you want perpetual "testing", even through jessie+1), or "sid" or "unstable" (if you want the latest and greatest packages or want to do some Debain packaging work like a proper Debian Hacker).
