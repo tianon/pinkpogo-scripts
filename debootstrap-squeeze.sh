@@ -32,10 +32,13 @@ set -e
 export PATH='/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin'
 
 root=/mnt
+
+# these are expected to be formatted already (ext3 and swap, respectively)
 rootDev=/dev/sda1
 swapDev=/dev/sda2
 
 hostname=pogoplug
+rootPassword=root
 
 suite=squeeze
 variant=minbase
@@ -163,8 +166,7 @@ rm -f "$root/etc/blkid.tab"
 rm -f "$root/etc/mtab"
 ln -sf /proc/mounts "$root/etc/mtab"
 
-# root password is 'root'
-sed -i 's,^root:.*$,root:$1$XPo5vyFS$iJPfS62vFNO09QUIUknpm.:14360:0:99999:7:::,' "$root/etc/shadow"
+echo "root:$rootPassword" | chroot "$root" chpasswd
 
 cat <<-'EOF' > "$root/mkimage.sh"
 	#!/bin/bash
@@ -186,5 +188,5 @@ echo
 echo
 echo
 echo 'You are _probably_ safe to reboot now. :)'
-echo 'FYI, the root password on your new device is "root".'
+echo 'FYI, the root password on your new device is "'"$rootPassword"'".'
 echo
