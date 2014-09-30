@@ -60,3 +60,31 @@ Once that's finished, reboot and make sure your device comes back up, and use `u
 ### "jessie"/"testing" or "sid"/"unstable"
 
 At this point, feel free to repeat the above steps if you want to get to something even newer, like "jessie" (if you want to switch to current "testing"), "testing" (if you want perpetual "testing", even through jessie+1), or "sid" or "unstable" (if you want the latest and greatest packages or want to do some Debain packaging work like a proper Debian Hacker).
+
+## netconsole
+
+Important paths:
+- `/usr/sbin/fw_setenv` (in PogoOS)
+- `/usr/lib/u-boot/dockstar/fw_setenv` (in `u-boot-tools` package in Debian)
+
+To help in diagnosing boot issues, netconsole is a great resource.
+
+See http://forum.doozan.com/read.php?3,14,14 for more information, but the general gist is:
+
+(Assuming your laptop or desktop box is at `192.168.1.2` and your pogo should assign itself to `192.168.1.100` during boot.)
+
+```console
+$ fw_setenv serverip 192.168.1.2
+$ fw_setenv ipaddr 192.168.1.100
+$ fw_setenv if_netconsole 'ping $serverip'
+$ fw_setenv start_netconsole 'setenv ncip $serverip; setenv bootdelay 10; setenv stdin nc; setenv stdout nc; setenv stderr nc; version;'
+$ fw_setenv preboot 'run if_netconsole start_netconsole'
+```
+
+If you need a netmask that's different from `255.255.255.0`, use something like:
+
+```console
+$ fw_setenv netmask 255.255.0.0
+```
+
+Then, run `./netconsole-server.sh` on your host box and reboot your Pogo.  With any luck, it'll give you some pretty output from the boot process and you'll be able to see (hopefully) some clues as to why your pretty new Debian install isn't booting!
