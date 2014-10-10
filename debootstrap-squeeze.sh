@@ -145,13 +145,15 @@ cat <<-EOF > "$root/etc/network/interfaces"
 	iface eth0 inet dhcp
 EOF
 
-# TODO make these either configurable at the top of the script, or auto-sense UUIDs or something
+rootUuid="$(chroot "$root" blkid -o export -s UUID "$rootDev" | grep '^UUID=')" # "UUID=..."
+swapUuid="$(chroot "$root" blkid -o export -s UUID "$swapDev" | grep '^UUID=')" # "UUID=..."
+
 cat <<-EOF > "$root/etc/fstab"
 	# fs	mount	type	options	dump pass
 	
-	LABEL=pogoplug-root	/	ext3	noatime,errors=remount-ro	0 1
+	$rootUuid	/	ext3	noatime,errors=remount-ro	0 1
 	
-	LABEL=pogoplug-swap	none	swap	sw	0 0
+	$swapUuid	none	swap	sw	0 0
 	
 	tmpfs	/tmp	tmpfs	defaults	0 0
 EOF
