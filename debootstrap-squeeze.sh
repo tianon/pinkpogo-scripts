@@ -145,15 +145,17 @@ cat <<-EOF > "$root/etc/network/interfaces"
 	iface eth0 inet dhcp
 EOF
 
-rootUuid="$(chroot "$root" blkid -o export -s UUID "$rootDev" | grep '^UUID=')" # "UUID=..."
-swapUuid="$(chroot "$root" blkid -o export -s UUID "$swapDev" | grep '^UUID=')" # "UUID=..."
+mount --rbind /dev /mnt/dev
+rootUuid="$(chroot "$root" blkid -o value -s UUID "$rootDev")" # "fe4deba0-d934-433f-8fee-79bb905aeb32"
+swapUuid="$(chroot "$root" blkid -o value -s UUID "$swapDev")" # "447e0572-5743-4d18-9d52-05dc77b63bfe"
+umount /mnt/dev
 
 cat <<-EOF > "$root/etc/fstab"
 	# fs	mount	type	options	dump pass
 	
-	$rootUuid	/	ext3	noatime,errors=remount-ro	0 1
+	UUID=$rootUuid	/	ext3	noatime,errors=remount-ro	0 1
 	
-	$swapUuid	none	swap	sw	0 0
+	UUID=$swapUuid	none	swap	sw	0 0
 	
 	tmpfs	/tmp	tmpfs	defaults	0 0
 EOF
