@@ -145,6 +145,11 @@ cat <<-EOF > "$root/etc/network/interfaces"
 	iface eth0 inet dhcp
 EOF
 
+cat <<-EOF > "$root/etc/resolv.conf"
+	nameserver 8.8.8.8
+	nameserver 8.8.4.4
+EOF
+
 mount --rbind /dev /mnt/dev
 rootUuid="$(chroot "$root" blkid -o value -s UUID "$rootDev")" # "fe4deba0-d934-433f-8fee-79bb905aeb32"
 swapUuid="$(chroot "$root" blkid -o value -s UUID "$swapDev")" # "447e0572-5743-4d18-9d52-05dc77b63bfe"
