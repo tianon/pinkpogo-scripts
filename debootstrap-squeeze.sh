@@ -63,6 +63,7 @@ packages=(
 	
 	# nice to haves
 	bash-completion
+	dialog
 	iputils-ping
 	ntp
 	rsync
@@ -143,6 +144,11 @@ cat <<-EOF > "$root/etc/network/interfaces"
 	
 	auto eth0
 	iface eth0 inet dhcp
+EOF
+
+cat <<-EOF > "$root/etc/resolv.conf"
+	nameserver 8.8.8.8
+	nameserver 8.8.4.4
 EOF
 
 mount --rbind /dev /mnt/dev
