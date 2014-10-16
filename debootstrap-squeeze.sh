@@ -63,6 +63,7 @@ packages=(
 	
 	# nice to haves
 	bash-completion
+	dialog
 	iputils-ping
 	ntp
 	rsync
