@@ -151,10 +151,10 @@ cat <<-EOF > "$root/etc/resolv.conf"
 	nameserver 8.8.4.4
 EOF
 
-mount --rbind /dev /mnt/dev
+mount --rbind /dev "$root/dev"
 rootUuid="$(chroot "$root" blkid -o value -s UUID "$rootDev")" # "fe4deba0-d934-433f-8fee-79bb905aeb32"
 swapUuid="$(chroot "$root" blkid -o value -s UUID "$swapDev")" # "447e0572-5743-4d18-9d52-05dc77b63bfe"
-umount /mnt/dev
+umount "$root/dev"
 
 cat <<-EOF > "$root/etc/fstab"
 	# fs	mount	type	options	dump pass
