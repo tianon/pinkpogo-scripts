@@ -63,14 +63,13 @@ packages=(
 	
 	# nice to haves
 	bash-completion
-	dialog
 	iputils-ping
 	ntp
 	rsync
 	vim-nox
 	
 	# shut up, dpkg/apt
-	apt-utils libterm-readline-gnu-perl
+	apt-utils dialog libterm-readline-gnu-perl
 )
 
 dooMirror='http://download.doozan.com'
